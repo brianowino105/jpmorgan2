@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Financial Summary</h2>
+    <canvas id="budgetChart" width="400" height="200"></canvas>
+
+    <script>
+        fetch('get_summary.php')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('budgetChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Income', 'Expenses', 'Net Savings'],
+                        datasets: [{
+                            label: 'Financial Summary',
+                            data: [data.total_income, data.total_expenses, data.net_savings],
+                            backgroundColor: ['#4CAF50', '#F44336', '#2196F3']
+                        }]
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
